@@ -34,7 +34,8 @@
       "@middleware/*": ["middleware/*"],
       "@repository/*": ["repository/*"],
       "@service/*": ["service/*"],
-      "@util/*": ["util/*"]
+      "@util/*": ["util/*"],
+      "@scheduler/*": ["scheduler/*"]
     }
   },
   "module": {
