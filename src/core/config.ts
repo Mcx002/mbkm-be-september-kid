@@ -1,7 +1,5 @@
-import { config as dotEnv } from 'dotenv';
-
 interface IConfiguration {
-  readonly NODE_ENV: 'production'|'development';
+  readonly NODE_ENV: "production" | "development";
   readonly APP_PORT: number;
   readonly APP_STATIC_PATH: string;
   readonly APP_ROOT_PATH: string;
@@ -34,16 +32,18 @@ export class Config {
     this._configurations = configurations;
   }
   get<K extends keyof IConfiguration>(key: K): IConfiguration[K] {
-    if (typeof this._configurations[key] === 'undefined')
-      throw new Error(`Config with ${key} not found.`)
+    if (typeof this._configurations[key] === "undefined")
+      throw new Error(`Config with ${key} not found.`);
     return this._configurations[key];
   }
-  getOrDefault<T extends number|string|boolean, K extends keyof IConfiguration>(key: K, defaultValue: T):
-    T extends boolean ? boolean :
-      T extends string ? string :
-        number {
-    if (!this._configurations[key])
-      return defaultValue as any;
+  getOrDefault<
+    T extends number | string | boolean,
+    K extends keyof IConfiguration
+  >(
+    key: K,
+    defaultValue: T
+  ): T extends boolean ? boolean : T extends string ? string : number {
+    if (!this._configurations[key]) return defaultValue as any;
     return this._configurations[key] as any;
   }
 }
@@ -51,36 +51,36 @@ export class Configuration {
   private static _config: Config = null;
   static instance() {
     if (this._config == null) {
-      const env = dotEnv({
-        path: `.env.${process.env.NODE_ENV || 'development'}`,
-      }).parsed;
       this._config = new Config({
-        NODE_ENV: env.NODE_ENV == 'development' ? 'development' : 'production',
-        APP_PORT: Number(env.APP_PORT),
-        APP_ROOT_PATH: env.APP_ROOT_PATH,
-        APP_STATIC_PATH: env.APP_STATIC_PATH,
-        APP_HKEY_EXPIRED: Number(env.APP_HKEY_EXPIRED),
-        APP_KEY: env.APP_KEY,
-        DB_CONNECTION_TIMEOUT: Number(env.DB_CONNECTION_TIMEOUT || 60000),
-        DB_HOST: env.DB_HOST,
-        DB_IDLE_TIMEOUT: Number(env.DB_IDLE_TIMEOUT || 1800000),
-        DB_MAX_POOL: Number(env.DB_MAX_POOL || 10),
-        DB_MIN_POOL: Number(env.DB_MIN_POOL || 5),
-        DB_NAME: env.DB_NAME,
-        DB_PASSWORD: env.DB_PASSWORD,
-        DB_PORT: Number(env.DB_PORT || 5432),
-        DB_USERNAME: env.DB_USERNAME,
-        JWT_EXPIRED: Number(env.JWT_EXPIRED || 3600),
-        JWT_ISSUER: env.JWT_ISSUER,
-        JWT_SECRET: env.JWT_SECRET,
-        LOG_DIR: env.LOG_DIR,
-        MINIO_ACCESS_KEY: env.MINIO_ACCESS_KEY,
-        MINIO_BUCKET_NAME: env.MINIO_BUCKET_NAME || 'bucket',
-        MINIO_ENDPOINT: env.MINIO_ENDPOINT,
-        MINIO_EXPIRED: Number(env.MINIO_EXPIRED || 7200),
-        MINIO_PORT: Number(env.MINIO_PORT || 9090),
-        MINIO_SECRET_KEY: env.MINIO_SECRET_KEY,
-        MINIO_USE_SSL: env.MINIO_USE_SSL == 'true'
+        NODE_ENV:
+          process.env.NODE_ENV == "development" ? "development" : "production",
+        APP_PORT: Number(process.env.APP_PORT),
+        APP_ROOT_PATH: process.env.APP_ROOT_PATH,
+        APP_STATIC_PATH: process.env.APP_STATIC_PATH,
+        APP_HKEY_EXPIRED: Number(process.env.APP_HKEY_EXPIRED),
+        APP_KEY: process.env.APP_KEY,
+        DB_CONNECTION_TIMEOUT: Number(
+          process.env.DB_CONNECTION_TIMEOUT || 60000
+        ),
+        DB_HOST: process.env.DB_HOST,
+        DB_IDLE_TIMEOUT: Number(process.env.DB_IDLE_TIMEOUT || 1800000),
+        DB_MAX_POOL: Number(process.env.DB_MAX_POOL || 10),
+        DB_MIN_POOL: Number(process.env.DB_MIN_POOL || 5),
+        DB_NAME: process.env.DB_NAME,
+        DB_PASSWORD: process.env.DB_PASSWORD,
+        DB_PORT: Number(process.env.DB_PORT || 5432),
+        DB_USERNAME: process.env.DB_USERNAME,
+        JWT_EXPIRED: Number(process.env.JWT_EXPIRED || 3600),
+        JWT_ISSUER: process.env.JWT_ISSUER,
+        JWT_SECRET: process.env.JWT_SECRET,
+        LOG_DIR: process.env.LOG_DIR,
+        MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY,
+        MINIO_BUCKET_NAME: process.env.MINIO_BUCKET_NAME || "bucket",
+        MINIO_ENDPOINT: process.env.MINIO_ENDPOINT,
+        MINIO_EXPIRED: Number(process.env.MINIO_EXPIRED || 7200),
+        MINIO_PORT: Number(process.env.MINIO_PORT || 9090),
+        MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY,
+        MINIO_USE_SSL: process.env.MINIO_USE_SSL == "true",
       });
     }
     return this._config;
